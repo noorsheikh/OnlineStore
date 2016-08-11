@@ -5,7 +5,7 @@
 	include "queries.php";
 
 	$query = new Queries;
-	$products = $query->showAllProducts();
+	$products = $query->showProducts();
 
 	// $query->deleteAllProducts();
 ?>
@@ -22,6 +22,7 @@
 			<td>Description</td>
 			<td>Stock</td>
 			<td>Price</td>
+			<td>Action</td>
 		</tr>
 	<?php foreach($products as $item) { ?>
 		<tr>
@@ -31,6 +32,7 @@
 			<td><?php echo $item['description']; ?></td>
 			<td><?php echo $item['stock']; ?></td>
 			<td><?php echo $item['price']; ?></td>
+			<td><a href="new.php" >New</a><a href="product.php?id=<?php echo $item['product_id']; ?>" > View</a><a href="delete.php?id=<?php echo $item['product_id']; ?>" > Delete</a></td>
 		</tr>
 	<?php } ?>
 	</table>

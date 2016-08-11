@@ -30,6 +30,9 @@ class Queries {
 	// Show single product.
 	public $show_product;
 
+	// Delete single product.
+	public $delete_product;
+
 	// Product database field declaration.
 	public $productName = "";
 	public $productType = "";
@@ -47,19 +50,19 @@ class Queries {
 
 		// Checking the form fields for data.
 		if(isset($_POST['product_name'])) {
-			$this->productName = $_POST['product_name'];
+			$this->productName = htmlspecialchars($_POST['product_name']);
 		}
 		if(isset($_POST['product_type'])) {
-			$this->productType = $_POST['product_type'];
+			$this->productType = htmlspecialchars($_POST['product_type']);
 		}
 		if(isset($_POST['description'])) {
-			$this->description = $_POST['description'];
+			$this->description = htmlspecialchars($_POST['description']);
 		}
 		if(isset($_POST['stock'])) {
-			$this->stock = $_POST['stock'];
+			$this->stock = htmlspecialchars($_POST['stock']);
 		}
 		if(isset($_POST['price'])) {
-			$this->price = $_POST['price'];
+			$this->price = htmlspecialchars($_POST['price']);
 		}
 	}
 
@@ -67,7 +70,7 @@ class Queries {
 	 * Function to list all of the products to the clients.
 	 *
 	 */
-	public function showAllProducts() {
+	public function showProducts() {
 		try {
 
 			$this->_show_all_products = $this->_connect->prepare("SELECT * FROM product");
@@ -125,6 +128,22 @@ class Queries {
 			$this->show_product = $this->_connect->prepare("SELECT * FROM product WHERE product_id =" . $id);
 			$this->show_product->execute();
 			return $this->show_product->fetch();
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			die();
+		}
+	}
+
+
+
+	/**
+	 * Function for deleting single product through product_id
+	 *
+	 */
+	public function deleteProduct($id) {
+		try {
+			$this->delete_product = $this->_connect->prepare("DELETE FROM product WHERE product_id =" . $id);
+			$this->delete_product->execute();
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			die();
