@@ -1,23 +1,33 @@
 <?php
 
+// Including the database configuration file.
 require_once("database.php");
 
+/**
+ * Class for managing all of the database queries.
+ *
+ */
 class Queries {
 
+	// Database instantiation variable.
+	public $_db;
+
+	// Database connection variable.
 	public $_connect;
 
-	public $_connected;
-
+	// List all products through this variable.
 	public $_show_all_products;
 
+	// Inserting new product to the database.
 	public $_insert_product;
 
+	// Deleting all products from the database.
 	public $_delete_products;
 
-	public $product;
-
+	// Product inserting query.
 	public $insert_query;
 
+	// Product database field declaration.
 	public $productName = "";
 	public $productType = "";
 	public $description = "";
@@ -25,8 +35,14 @@ class Queries {
 	public $price = 0;
 
 	
-
+	// Main constructor of the Queries class.
 	public function __construct() {
+
+		// Getting the database instance and connecting to the database.
+		$this->_db = Database::getInstance();
+		$this->_connect = $this->_db->connect();
+
+		// Checking the form fields for data.
 		if(isset($_POST['product_name'])) {
 			$this->productName = $_POST['product_name'];
 		}
@@ -44,12 +60,14 @@ class Queries {
 		}
 	}
 
+	/**
+	 * Function to list all of the products to the clients.
+	 *
+	 */
 	public function showAllProducts() {
 		try {
 
-			$this->_connect = Database::getInstance();
-			$this->_connected = $this->_connect->connect();
-			$this->_show_all_products = $this->_connected->prepare("SELECT * FROM product");
+			$this->_show_all_products = $this->_connect->prepare("SELECT * FROM product");
 			$this->_show_all_products->execute();
 			return $this->_show_all_products->fetchAll();
 		} catch(Exception $e) {
@@ -58,13 +76,16 @@ class Queries {
 		}
 	}
 
+	/**
+	 * Function to insert a new product in the database through form.
+	 *
+	 */
 	public function insertProduct() {
 		try {
 
 			$this->insert_query = "INSERT INTO product (product_name, product_type, description, stock, price) VALUES ('$this->productName', '$this->productType', '$this->description', '$this->stock', $this->price)";
-			$this->_connect = Database::getInstance();
-			$this->_connected = $this->_connect->connect();
-			$this->_insert_product = $this->_connected->prepare($this->insert_query);
+			
+			$this->_insert_product = $this->_connect->prepare($this->insert_query);
 			$this->_insert_product->execute();
 			if(isset($_POST['submit'])) {
 				return header("Location: http://localhost/onlinestore/");
@@ -75,11 +96,14 @@ class Queries {
 		}
 	}
 
+	/**
+	 * Function to delete all products in the product table.
+	 *
+	 */
 	public function deleteAllProducts() {
 		try {
-			$this->_connect = Database::getInstance();
-			$this->_connected = $this->_connect->connect();
-			$this->_delete_products = $this->_connected->prepare("TRUNCATE TABLE product");
+			
+			$this->_delete_products = $this->_connect->prepare("TRUNCATE TABLE product");
 			return $this->_delete_products->execute();
 		} catch(Exception $e) {
 			echo $e->getMessage();
