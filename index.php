@@ -2,10 +2,12 @@
 	// remove the below line before deployment
 	ini_set('errors_display', 'On');
 
-	require("queries.php");
+	include "queries.php";
 
 	$query = new Queries;
 	$products = $query->showAllProducts();
+
+	// $query->deleteAllProducts();
 ?>
 <!DOCTYPE html>
 <html>

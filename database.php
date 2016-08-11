@@ -17,13 +17,9 @@ class Database {
 	public function __construct() {
 		try {
 			$this->_connection = new PDO('sqlite:online_store.db');
-			if($this->_connection) {
-				echo "Database connected successfully!";
-			} else {
-				echo "Unable to connect to the database!";
-			}
 		} catch(Exception $e) {
 			echo $e->getMessage();
+			die();
 		}
 	}
 
