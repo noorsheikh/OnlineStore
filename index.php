@@ -25,7 +25,7 @@
 		</tr>
 	<?php foreach($products as $item) { ?>
 		<tr>
-			<td><?php echo $item['product_id']; ?></td>
+			<td><a href="product.php?id=<?php echo $item['product_id']; ?>" ><?php echo $item['product_id']; ?></a></td>
 			<td><?php echo $item['product_name']; ?></td>
 			<td><?php echo $item['product_type']; ?></td>
 			<td><?php echo $item['description']; ?></td>

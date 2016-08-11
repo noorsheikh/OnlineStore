@@ -27,6 +27,9 @@ class Queries {
 	// Product inserting query.
 	public $insert_query;
 
+	// Show single product.
+	public $show_product;
+
 	// Product database field declaration.
 	public $productName = "";
 	public $productType = "";
@@ -105,6 +108,23 @@ class Queries {
 			
 			$this->_delete_products = $this->_connect->prepare("TRUNCATE TABLE product");
 			return $this->_delete_products->execute();
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			die();
+		}
+	}
+
+
+
+	/**
+	 * Function for retriving single product through product_id
+	 *
+	 */
+	public function showProduct($id) {
+		try {
+			$this->show_product = $this->_connect->prepare("SELECT * FROM product WHERE product_id =" . $id);
+			$this->show_product->execute();
+			return $this->show_product->fetch();
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			die();
