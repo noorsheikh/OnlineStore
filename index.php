@@ -1,19 +1,22 @@
 <?php
-	// remove the below line before deployment
-	ini_set('errors_display', 'On');
+// remove the below line before deployment
+ini_set('errors_display', 'On');
 
-	include "queries.php";
+include "init.php";
 
-	$query = new Queries;
-	$products = $query->showProducts();
+$query = new ProductQueries;
+$products = $query->showProducts();
 
-	// $query->deleteAllProducts();
+// $query->deleteAllProducts();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>Online Store</title>
+</head>
+<body>
+	<a href="new.php" >New</a>
 	<table>
 		<tr>
 			<td>Product ID</td>
@@ -32,12 +35,9 @@
 			<td><?php echo $item['description']; ?></td>
 			<td><?php echo $item['stock']; ?></td>
 			<td><?php echo $item['price']; ?></td>
-			<td><a href="new.php" >New</a><a href="product.php?id=<?php echo $item['product_id']; ?>" > View</a><a href="delete.php?id=<?php echo $item['product_id']; ?>" > Delete</a></td>
+			<td><a href="product.php?id=<?php echo $item['product_id']; ?>" > View</a><a href="update.php?id=<?php echo $item['product_id']; ?>" > Update</a><a href="delete.php?id=<?php echo $item['product_id']; ?>" > Delete</a></td>
 		</tr>
 	<?php } ?>
 	</table>
-</head>
-<body>
-
 </body>
 </html>

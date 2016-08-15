@@ -24,7 +24,7 @@ class Database {
 	// Main constructor of the Database class.
 	public function __construct() {
 		try {
-			$this->_connection = new PDO('sqlite:online_store.db');
+			$this->_connection = new PDO('sqlite:Database/online_store.db');
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			die();

@@ -1,13 +1,13 @@
 <?php
 
-// Including the database configuration file.
-require_once("database.php");
+// Including the init configuration file.
+include "./Database/Database.php";
 
 /**
  * Class for managing all of the database queries.
  *
  */
-class Queries {
+class ProductQueries {
 
 	// Database instantiation variable.
 	public $_db;
@@ -32,6 +32,9 @@ class Queries {
 
 	// Delete single product.
 	public $delete_product;
+
+	// Update single product.
+	public $update_product;
 
 	// Product database field declaration.
 	public $productName = "";
@@ -89,7 +92,7 @@ class Queries {
 	public function insertProduct() {
 		try {
 
-			$this->insert_query = "INSERT INTO product (product_name, product_type, description, stock, price) VALUES ('$this->productName', '$this->productType', '$this->description', '$this->stock', $this->price)";
+			$this->insert_query = "INSERT INTO product (product_name, product_type, description, stock, price) VALUES ('$this->productName', '$this->productType', '$this->description', $this->stock, $this->price)";
 			
 			$this->_insert_product = $this->_connect->prepare($this->insert_query);
 			$this->_insert_product->execute();
@@ -144,6 +147,21 @@ class Queries {
 		try {
 			$this->delete_product = $this->_connect->prepare("DELETE FROM product WHERE product_id =" . $id);
 			$this->delete_product->execute();
+			
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			die();
+		}
+	}
+
+	/**
+	 * Function for delete a single product by product_id
+	 *
+	 */
+	public function updateProduct($id) {
+		try {
+			$this->update_product = $this->_connect->prepare("UPDATE product SET product_name = '$this->productName', product_type = '$this->productType', description = '$this->description', stock = $this->stock, price = $this->price WHERE product_id =" . $id);
+			return $this->update_product->execute();
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			die();
