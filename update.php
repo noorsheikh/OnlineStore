@@ -8,12 +8,12 @@ $query = new ProductQueries;
 
 $id = $_GET['id'];
 
-$update = $query->updateProduct($id);
-
 $product = $query->showProduct($id);
 
-var_dump($product);
-echo "Name: " . $product['product_name'];
+if(isset($_POST['submit'])) {
+	$update = $query->updateProduct($id);
+	header("Location: index.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -33,15 +33,15 @@ echo "Name: " . $product['product_name'];
 			</tr>
 			<tr>
 				<td><label for="description">Description:</label></td>
-				<td><textarea name="description"></textarea></td>
+				<td><textarea name="description"><?php echo $product['description']; ?></textarea></td>
 			</tr>
 			<tr>
 				<td><label for="stock">Stock:</label></td>
-				<td><input type="text" name="stock" value=""></td>
+				<td><input type="text" name="stock" value="<?php echo $product['stock']; ?>"></td>
 			</tr>
 			<tr>
 				<td><label for="price">Price:</label></td>
-				<td><input type="text" name="price"></td>
+				<td><input type="text" name="price" value="<?php echo $product['price']; ?>"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="submit" value="Create New"></td>

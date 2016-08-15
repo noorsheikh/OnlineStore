@@ -27,7 +27,7 @@ $products = $query->showProducts();
 			<td>Price</td>
 			<td>Action</td>
 		</tr>
-	<?php foreach($products as $item) { ?>
+		<?php foreach($products as $item) { ?>
 		<tr>
 			<td><a href="product.php?id=<?php echo $item['product_id']; ?>" ><?php echo $item['product_id']; ?></a></td>
 			<td><?php echo $item['product_name']; ?></td>
@@ -35,9 +35,9 @@ $products = $query->showProducts();
 			<td><?php echo $item['description']; ?></td>
 			<td><?php echo $item['stock']; ?></td>
 			<td><?php echo $item['price']; ?></td>
-			<td><a href="product.php?id=<?php echo $item['product_id']; ?>" > View</a><a href="update.php?id=<?php echo $item['product_id']; ?>" > Update</a><a href="delete.php?id=<?php echo $item['product_id']; ?>" > Delete</a></td>
+			<td><a href="product.php?id=<?php echo $item['product_id']; ?>" > View</a><a href="update.php?id=<?php echo $item['product_id']; ?>" > Edit</a><a href="delete.php?id=<?php echo $item['product_id']; ?>" > Delete</a></td>
 		</tr>
-	<?php } ?>
+		<?php } ?>
 	</table>
 </body>
 </html>
