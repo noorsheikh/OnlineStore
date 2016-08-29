@@ -2,9 +2,9 @@
   // remove the below line before deployment
   ini_set('errors_display', 'On');
 
-  include "init.php";
+  include "../init.php";
 
-  $query = new ProductQueries;
+  $query = new Queries;
   $id = $_GET['id'];
   $product = $query->showProduct($id);
 

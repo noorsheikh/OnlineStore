@@ -1,13 +1,13 @@
 <?php
 
 // Including the init configuration file.
-include "./Database/Database.php";
+include "../Database/Database.php";
 
 /**
  * Class for managing all of the database queries.
  *
  */
-class ProductQueries {
+class Queries {
 
 	// Database instantiation variable.
 	public $_db;
@@ -35,6 +35,21 @@ class ProductQueries {
 
 	// Update single product.
 	public $update_product;
+
+	// show all products.
+	public $allProducts;
+
+	// List all categories through this variable.
+	public $_show_all_categories;
+
+	// show all categories.
+	public $allCategories;
+
+	// List all brands through this variable.
+	public $_show_all_brands;
+
+	// show all brands.
+	public $allBrands;
 
 	// Product database field declaration.
 	public $productName = "";
@@ -76,12 +91,21 @@ class ProductQueries {
 	public function showProducts() {
 		try {
 
-			$this->_show_all_products = $this->_connect->prepare("SELECT * FROM product");
+			// Query all products join with categories
+			$this->_show_all_products = $this->_connect->prepare("select p.*, c.category_name, b.brand_name from product p join category c on c.category_id = p.category_id join brand b on b.brand_id = p.brand_id");
 			$this->_show_all_products->execute();
-			return $this->_show_all_products->fetchAll();
-		} catch(Exception $e) {
-			echo $e->getMessage();
-			die();
+			$this->allProducts = $this->_show_all_products->fetchAll(PDO::FETCH_ASSOC);
+
+			return json_encode(array(
+				'error' => false,
+				'items' => $this->allProducts
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+		} catch(PDOException $e) {
+			echo json_encode(array(
+				'error' => true,
+				'message' => $e->getMessage()
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 		}
 	}
 
@@ -165,6 +189,56 @@ class ProductQueries {
 		} catch(Exception $e) {
 			echo $e->getMessage();
 			die();
+		}
+	}
+
+	/**
+	 * Function to list all of the categories to the clients.
+	 *
+	 */
+	public function showCategories() {
+		try {
+
+			// Query all categories
+			$this->_show_all_categories = $this->_connect->prepare("SELECT * FROM category");
+			$this->_show_all_categories->execute();
+			$this->allCategories = $this->_show_all_categories->fetchAll(PDO::FETCH_ASSOC);
+
+			return json_encode(array(
+				'error' => false,
+				'categories' => $this->allCategories
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+		} catch(PDOException $e) {
+			echo json_encode(array(
+				'error' => true,
+				'message' => $e->getMessage()
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+		}
+	}
+
+	/**
+	 * Function to list all of the brands to the clients.
+	 *
+	 */
+	public function showBrands() {
+		try {
+
+			// Query all brands
+			$this->_show_all_brands = $this->_connect->prepare("SELECT * FROM brand");
+			$this->_show_all_brands->execute();
+			$this->allBrands = $this->_show_all_brands->fetchAll(PDO::FETCH_ASSOC);
+
+			return json_encode(array(
+				'error' => false,
+				'brands' => $this->allBrands
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+		} catch(PDOException $e) {
+			echo json_encode(array(
+				'error' => true,
+				'message' => $e->getMessage()
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 		}
 	}
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Online Store</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie-edge">
+
+	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body ng-app="onlineStore">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-light navbar-fixed-top">
+					<div class="container">
+						<a class="navbar-brand" href="#/"><span class="text-uppercase">Online</span> Store<i class="fa fa-opencart"></i></a>
+						<button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar-collapse-1">
+							&#9776;
+						</button>
+						<div class="collapse navbar-toggleable-xs" id="navbar-collapse-1">
+							<ul class="nav navbar-nav pull-md-right pull-xs-left pull-sm-left right-nav">
+								<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cart-plus"></i> Shopping Cart</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Sign In</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Sign Up</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<div ng-view></div>
+
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="node_modules/tether/dist/js/tether.min.js"></script>
+	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+	<script type="text/javascript" src="node_modules/angular/angular-route.min.js"></script>
+	<script type="text/javascript" src="components/app.js"></script>
+	<script type="text/javascript" src="components/controllers.js"></script>
+</body>
+</html>
