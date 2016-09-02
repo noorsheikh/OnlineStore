@@ -5,7 +5,7 @@ angular
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: 'templates/show_products.html',
+				templateUrl: 'templates/home_page.html',
 				controller: 'ProductsController'
 			})
 			.when('/add_product', {

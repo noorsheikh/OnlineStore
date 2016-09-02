@@ -8,7 +8,7 @@
 
 			$scope.items = [];
 			$scope.categories = [];
-			$scope.brands = [];
+			$scope.types = [];
 			
 			$scope.product_id = '';
 			$scope.product_item = '';
@@ -17,7 +17,7 @@
 			$scope.stock = '';
 			$scope.price = '';
 			$scope.image_source = '';
-			$scope.brand_id = '';
+			$scope.type_id = '';
 
 			$scope.showProducts = function() {
 				$http.get('APIs/show_products.php').success(function(data) {
@@ -41,10 +41,10 @@
 				});
 			}
 
-			$scope.showBrands = function() {
-				$http.get('APIs/show_brands.php').success(function(data) {
-					if(data.brands) {
-						$scope.brands = data.brands;
+			$scope.showTypes = function() {
+				$http.get('APIs/show_types.php').success(function(data) {
+					if(data.types) {
+						$scope.types = data.types;
 					}
 				})
 				.error(function(data, status, headers, config) {
@@ -60,15 +60,15 @@
 				$scope.stock = '';
 				$scope.price = '';
 				$scope.image_url = '';
-				$scope.brand_id = '';
+				$scope.type_id = '';
 			}
 
-			function _recordAddedSuccessfully() {
-				return )
+			function _recordAddedSuccessfully(data) {
+				return (
 					data &&
 					!data.error &&
 					data.item
-				):
+				);
 			}
 
 			$scope.insertProduct = function() {
@@ -82,7 +82,7 @@
 					"&price=" + $scope.price + 
 					"&image_url=" + $scope.image_url + 
 					"&product_date=" + $scope.product_date +
-					"&brand_id=" + $scope.brand_id,
+					"&btype_id=" + $scope.type_id,
 					headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
 				})
 				.success(function(data) {
@@ -91,15 +91,17 @@
 							product_id: data.item.product_id,
 							product_name: data.item.product_name,
 							category_id: data.item.category_id,
+							category_name: data.item.category_name,
 							description: data.item.description,
 							stock: data.item.stock,
 							price: data.item.price,
 							image_url: data.item.image_url,
 							product_date: data.item.product_date,
-							brand_id: data.item.brand_id
+							type_id: data.item.type_id,
+							type_name: data.item.type_name
 						})
 						$scope.clear();
-					});
+					}
 				})
 				.error(function(data, status, headers, config) {
 					throw new Error('Something went wrong with inserting product.');

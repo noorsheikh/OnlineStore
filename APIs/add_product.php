@@ -9,7 +9,7 @@ $query = new Queries;
 $insert = $query->insertProduct();
 
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -45,4 +45,4 @@ $insert = $query->insertProduct();
 <body>
 
 </body>
-</html>
+</html> -->

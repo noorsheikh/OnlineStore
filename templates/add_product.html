@@ -1,0 +1,67 @@
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-8">
+				<h1>Add Item</h1>
+				<form ng-submit="insertProduct()">
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="product_name">Product Name:</label>
+						<div class="col-xs-9">
+						    <input class="form-control" type="text" name="product_name" ng-model="product_name" ng-trim="false" placeholder="Product Name">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="category_id">Category Name</label>
+						<div class="col-xs-9">
+							<select class="form-control" name="category_id" ng-model="category_id" ng-init="showCategories()">
+								<option ng-repeat="category in categories" value="{{ category.category_id }}">{{ category.category_name }}</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="description">Description:</label>
+						<div class="col-xs-9">
+						    <textarea class="form-control" name="description" ng-model="description" placeholder="Description"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="stock">Stock:</label>
+						<div class="col-xs-9">
+						    <input class="form-control" type="text" name="stock" ng-model="stock" ng-trim="false" placeholder="Stock">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="price">Price:</label>
+						<div class="col-xs-9">
+						    <input class="form-control" type="text" name="price" ng-model="price" ng-trim="false" placeholder="Price">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="image_source">Image Source:</label>
+						<div class="col-xs-9">
+						    <input class="form-control" type="text" name="image_source" ng-model="image_source" ng-trim="false" placeholder="Image Source">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-xs-3 col-form-label" for="brand_id">Brand Name</label>
+						<div class="col-xs-9">
+							<select class="form-control" name="brand_id" ng-model="brand_id" ng-init="showBrands()">
+								<option ng-repeat="brand in brands" value="{{ brand.brand_id }}">{{ brand.brand_name }}</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-9">
+							<button class="btn btn-primary" type="submit">Add Product</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+	</div>
+</section>

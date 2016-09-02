@@ -45,18 +45,23 @@ class Queries {
 	// show all categories.
 	public $allCategories;
 
-	// List all brands through this variable.
-	public $_show_all_brands;
+	// List all types through this variable.
+	public $_show_all_types;
 
-	// show all brands.
-	public $allBrands;
+	// show all types.
+	public $allTypes;
+
+	// Last inserted record id.
+	public $id;
 
 	// Product database field declaration.
 	public $productName = "";
-	public $productType = "";
+	public $categoryId = "";
 	public $description = "";
 	public $stock = 0;
 	public $price = 0;
+	public $imageUrl = "";
+	public $typeId = 0;
 
 	
 	// Main constructor of the Queries class.
@@ -70,8 +75,8 @@ class Queries {
 		if(isset($_POST['product_name'])) {
 			$this->productName = htmlspecialchars($_POST['product_name']);
 		}
-		if(isset($_POST['product_type'])) {
-			$this->productType = htmlspecialchars($_POST['product_type']);
+		if(isset($_POST['category_id'])) {
+			$this->categoryId = htmlspecialchars($_POST['category_id']);
 		}
 		if(isset($_POST['description'])) {
 			$this->description = htmlspecialchars($_POST['description']);
@@ -81,6 +86,12 @@ class Queries {
 		}
 		if(isset($_POST['price'])) {
 			$this->price = htmlspecialchars($_POST['price']);
+		}
+		if(isset($_POST['image_url'])) {
+			$this->imageUrl = htmlspecialchars($_POST['image_url']);
+		}
+		if(isset($_POST['type_id'])) {
+			$this->typeId = htmlspecialchars($_POST['type_id']);
 		}
 	}
 
@@ -92,7 +103,7 @@ class Queries {
 		try {
 
 			// Query all products join with categories
-			$this->_show_all_products = $this->_connect->prepare("select p.*, c.category_name, b.brand_name from product p join category c on c.category_id = p.category_id join brand b on b.brand_id = p.brand_id");
+			$this->_show_all_products = $this->_connect->prepare("select p.*, c.category_name, b.type_name from product p join category c on c.category_id = p.category_id join type b on b.type_id = p.type_id");
 			$this->_show_all_products->execute();
 			$this->allProducts = $this->_show_all_products->fetchAll(PDO::FETCH_ASSOC);
 
@@ -116,16 +127,35 @@ class Queries {
 	public function insertProduct() {
 		try {
 
-			$this->insert_query = "INSERT INTO product (product_name, product_type, description, stock, price) VALUES ('$this->productName', '$this->productType', '$this->description', $this->stock, $this->price)";
+			// Form validation
+			if( 
+				empty($_POST['product_name']) ||
+				empty($_POST['category_id']) ||
+				empty($_POST['description']) ||
+				empty($_POST['stock']) ||
+				empty($_POST['price']) ||
+				empty($_POST['image_url']) ||
+				empty($_POST['type_id'])
+			) {
+				throw new PDOException('Please insert the missing data!');
+			}
+
+			// Insert data into the product table
+			$this->insert_query = "INSERT INTO product (product_name, category_id, description, stock, price, image_url, brnad_id) VALUES ('$this->productName', $this->categoryId, '$this->description', $this->stock, $this->price, '$this->imageUrl', $this->typeId)";
 			
 			$this->_insert_product = $this->_connect->prepare($this->insert_query);
 			$this->_insert_product->execute();
-			if(isset($_POST['submit'])) {
-				return header("Location: http://localhost/onlinestore/");
-			}
-		} catch(Exeption $e) {
-			echo $e->getMessage();
-			die();
+
+			return json_encode(array(
+				'error' => false,
+				'item' => $this->_insert_product
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+		} catch(PDOException $e) {
+			echo json_encode(array(
+				'error' => true,
+				'message' => $e->getMessage()
+			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 		}
 	}
 
@@ -218,20 +248,20 @@ class Queries {
 	}
 
 	/**
-	 * Function to list all of the brands to the clients.
+	 * Function to list all of the types to the clients.
 	 *
 	 */
-	public function showBrands() {
+	public function showTypes() {
 		try {
 
-			// Query all brands
-			$this->_show_all_brands = $this->_connect->prepare("SELECT * FROM brand");
-			$this->_show_all_brands->execute();
-			$this->allBrands = $this->_show_all_brands->fetchAll(PDO::FETCH_ASSOC);
+			// Query all types
+			$this->_show_all_types = $this->_connect->prepare("SELECT * FROM type");
+			$this->_show_all_types->execute();
+			$this->allTypes = $this->_show_all_types->fetchAll(PDO::FETCH_ASSOC);
 
 			return json_encode(array(
 				'error' => false,
-				'brands' => $this->allBrands
+				'types' => $this->allTypes
 			), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 
 		} catch(PDOException $e) {
