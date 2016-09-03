@@ -20,6 +20,10 @@ angular
 				templateUrl: 'templates/product_details.html',
 				controller: 'Productscontroller'
 			})
+			.when('/quick_view/:id', {
+				templateUrl: 'templates/quick_view.html',
+				controller: 'ProductsController'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

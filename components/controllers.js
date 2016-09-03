@@ -30,6 +30,8 @@
 				});
 			}
 
+			$scope.showProducts();
+
 			$scope.showCategories = function() {
 				$http.get('APIs/show_categories.php').success(function(data) {
 					if(data.categories) {
